@@ -1,0 +1,7 @@
+include::onecx-demo-bff-attributes.adoc[opts=optional]
+
+= onecx-demo-bff
+
+
+
+include::onecx-demo-bff-docs.adoc[opts=optional]

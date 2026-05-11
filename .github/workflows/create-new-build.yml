@@ -1,0 +1,14 @@
+name: create-new-build
+on:
+  workflow_dispatch:
+jobs:
+  create_new_build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '25'
+      - name: Run workflow command
+        run: echo 'Create new build placeholder'

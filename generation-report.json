@@ -1,0 +1,10 @@
+{
+  "projectName": "onecx-demo-bff",
+  "groupId": "org.tkit.onecx",
+  "basePackage": "org.tkit.onecx.demo.bff",
+  "parentVersion": "3.2.0",
+  "dependencyProfile": "MODERN_3_1_PLUS",
+  "frontendSchemas": 6,
+  "backendSchemas": 9,
+  "controllers": 1
+}

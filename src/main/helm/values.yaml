@@ -1,0 +1,12 @@
+app:
+  name: bff
+  image:
+    repository: "onecx/onecx-demo-bff"
+  operator:
+    permission:
+      enabled: true
+    microservice:
+      spec:
+        description: onecx-demo-bff
+        name: onecx-demo-bff
+
