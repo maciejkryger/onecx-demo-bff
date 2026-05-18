@@ -12,5 +12,5 @@ jobs:
         with:
           distribution: temurin
           java-version: '25'
-      - name: Run workflow command
+      - name: Build
         run: mvn -B -ntp clean verify

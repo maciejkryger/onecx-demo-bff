@@ -17,6 +17,7 @@ import org.tkit.onecx.demo.bff.rs.mappers.ProductMapper;
 import org.tkit.quarkus.log.cdi.LogService;
 
 import gen.org.tkit.onecx.demo.bff.backend.client.api.ProductsInternalApi;
+import gen.org.tkit.onecx.demo.bff.backend.client.model.*;
 
 @ApplicationScoped
 @Transactional(Transactional.TxType.NOT_SUPPORTED)
@@ -38,37 +39,45 @@ public class ProductRestController {
 
     @POST
     @Path("/internal/products")
-    public Response createproduct() {
-        // TODO implement backend call and mapper conversion.
-        return null;
+    public Response createProduct(Product productDto) {
+        try (Response backendResponse = client.createProduct(productDto)) {
+            Product result = backendResponse.readEntity(Product.class);
+            return Response.status(201).entity(result).build();
+        }
     }
 
     @GET
     @Path("/internal/products/{id}")
-    public Response getproductbyid(@PathParam("id") String id) {
-        // TODO implement backend call and mapper conversion.
-        return null;
+    public Response getProductById(@PathParam("id") String id) {
+        try (Response backendResponse = client.getProductById(id)) {
+            Product result = backendResponse.readEntity(Product.class);
+            return Response.status(200).entity(result).build();
+        }
     }
 
     @PUT
     @Path("/internal/products/{id}")
-    public Response updateproduct(@PathParam("id") String id) {
-        // TODO implement backend call and mapper conversion.
-        return null;
+    public Response updateProduct(@PathParam("id") String id, Product productDto) {
+        try (Response backendResponse = client.updateProduct(id, productDto)) {
+            Product result = backendResponse.readEntity(Product.class);
+            return Response.status(200).entity(result).build();
+        }
     }
 
     @DELETE
     @Path("/internal/products/{id}")
-    public Response deleteproduct(@PathParam("id") String id) {
-        // TODO implement backend call and mapper conversion.
-        return null;
+    public Response deleteProduct(@PathParam("id") String id) {
+        client.deleteProduct(id);
+        return Response.noContent().build();
     }
 
     @POST
     @Path("/internal/products/search")
-    public Response searchproducts() {
-        // TODO implement backend call and mapper conversion.
-        return null;
+    public Response searchProducts(ProductSearchCriteria productSearchCriteriaDto) {
+        try (Response backendResponse = client.searchProducts(productSearchCriteriaDto)) {
+            ProductPageResult result = backendResponse.readEntity(ProductPageResult.class);
+            return Response.status(200).entity(result).build();
+        }
     }
 
     @ServerExceptionMapper

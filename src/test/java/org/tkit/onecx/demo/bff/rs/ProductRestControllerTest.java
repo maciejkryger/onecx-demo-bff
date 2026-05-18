@@ -1,52 +1,188 @@
 package org.tkit.onecx.demo.bff.rs;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static io.restassured.RestAssured.given;
+import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
-import jakarta.inject.Inject;
+import jakarta.ws.rs.core.Response;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.tkit.onecx.demo.bff.rs.controllers.ProductRestController;
+import org.mockserver.client.MockServerClient;
+import org.mockserver.model.HttpRequest;
+import org.mockserver.model.HttpResponse;
+import org.tkit.quarkus.log.cdi.LogService;
 
+import io.quarkiverse.mockserver.test.InjectMockServerClient;
 import io.quarkus.test.junit.QuarkusTest;
 
 @QuarkusTest
+@LogService
 class ProductRestControllerTest extends AbstractTest {
-    @Inject
-    ProductRestController controller;
+    @InjectMockServerClient
+    MockServerClient mockServerClient;
 
-    @Test
-    void shouldInjectController() {
-        assertNotNull(controller);
+    @BeforeEach
+    void resetExpectation() {
+        try {
+            mockServerClient.clear(MOCK_ID);
+        } catch (Exception ex) {
+            // mockId not existing
+        }
     }
 
     @Test
-    void shouldHandleCreateproduct() {
-        // TODO add endpoint behavior assertions when frontend contract is finalized.
-        assertNotNull(controller);
+    void createProductTest() {
+        // unauthorized
+        given()
+                .when()
+                .contentType(APPLICATION_JSON)
+                .body("{}")
+                .post("/internal/products")
+                .then()
+                .statusCode(Response.Status.UNAUTHORIZED.getStatusCode());
+
+        // mock backend
+        mockServerClient.when(
+                HttpRequest.request()
+                        .withPath("/internal/products")
+                        .withMethod("POST"))
+                .withId(MOCK_ID).respond(
+                        HttpResponse.response()
+                                .withStatusCode(201)
+                                .withHeader("Content-Type", "application/json")
+                                .withBody("{}"));
+
+        given()
+                .when()
+                .auth().oauth2(keycloakClient.getAccessToken(ADMIN))
+                .header(APM_HEADER_PARAM, ADMIN)
+                .contentType(APPLICATION_JSON)
+                .body("{}")
+                .post("/internal/products")
+                .then()
+                .statusCode(201);
     }
 
     @Test
-    void shouldHandleGetproductbyid() {
-        // TODO add endpoint behavior assertions when frontend contract is finalized.
-        assertNotNull(controller);
+    void getProductByIdTest() {
+        // unauthorized
+        given()
+                .when()
+                .get("/internal/products/test-id")
+                .then()
+                .statusCode(Response.Status.UNAUTHORIZED.getStatusCode());
+
+        // mock backend
+        mockServerClient.when(
+                HttpRequest.request()
+                        .withPath("/internal/products/test-id")
+                        .withMethod("GET"))
+                .withId(MOCK_ID).respond(
+                        HttpResponse.response()
+                                .withStatusCode(200)
+                                .withHeader("Content-Type", "application/json")
+                                .withBody("{}"));
+
+        given()
+                .when()
+                .auth().oauth2(keycloakClient.getAccessToken(ADMIN))
+                .header(APM_HEADER_PARAM, ADMIN)
+                .get("/internal/products/test-id")
+                .then()
+                .statusCode(200);
     }
 
     @Test
-    void shouldHandleUpdateproduct() {
-        // TODO add endpoint behavior assertions when frontend contract is finalized.
-        assertNotNull(controller);
+    void updateProductTest() {
+        // unauthorized
+        given()
+                .when()
+                .contentType(APPLICATION_JSON)
+                .body("{}")
+                .put("/internal/products/test-id")
+                .then()
+                .statusCode(Response.Status.UNAUTHORIZED.getStatusCode());
+
+        // mock backend
+        mockServerClient.when(
+                HttpRequest.request()
+                        .withPath("/internal/products/test-id")
+                        .withMethod("PUT"))
+                .withId(MOCK_ID).respond(
+                        HttpResponse.response()
+                                .withStatusCode(200)
+                                .withHeader("Content-Type", "application/json")
+                                .withBody("{}"));
+
+        given()
+                .when()
+                .auth().oauth2(keycloakClient.getAccessToken(ADMIN))
+                .header(APM_HEADER_PARAM, ADMIN)
+                .contentType(APPLICATION_JSON)
+                .body("{}")
+                .put("/internal/products/test-id")
+                .then()
+                .statusCode(200);
     }
 
     @Test
-    void shouldHandleDeleteproduct() {
-        // TODO add endpoint behavior assertions when frontend contract is finalized.
-        assertNotNull(controller);
+    void deleteProductTest() {
+        // unauthorized
+        given()
+                .when()
+                .delete("/internal/products/test-id")
+                .then()
+                .statusCode(Response.Status.UNAUTHORIZED.getStatusCode());
+
+        // mock backend
+        mockServerClient.when(
+                HttpRequest.request()
+                        .withPath("/internal/products/test-id")
+                        .withMethod("DELETE"))
+                .withId(MOCK_ID).respond(
+                        HttpResponse.response()
+                                .withStatusCode(204));
+
+        given()
+                .when()
+                .auth().oauth2(keycloakClient.getAccessToken(ADMIN))
+                .header(APM_HEADER_PARAM, ADMIN)
+                .delete("/internal/products/test-id")
+                .then()
+                .statusCode(204);
     }
 
     @Test
-    void shouldHandleSearchproducts() {
-        // TODO add endpoint behavior assertions when frontend contract is finalized.
-        assertNotNull(controller);
+    void searchProductsTest() {
+        // unauthorized
+        given()
+                .when()
+                .contentType(APPLICATION_JSON)
+                .body("{}")
+                .post("/internal/products/search")
+                .then()
+                .statusCode(Response.Status.UNAUTHORIZED.getStatusCode());
+
+        // mock backend
+        mockServerClient.when(
+                HttpRequest.request()
+                        .withPath("/internal/products/search")
+                        .withMethod("POST"))
+                .withId(MOCK_ID).respond(
+                        HttpResponse.response()
+                                .withStatusCode(200)
+                                .withHeader("Content-Type", "application/json")
+                                .withBody("{}"));
+
+        given()
+                .when()
+                .auth().oauth2(keycloakClient.getAccessToken(ADMIN))
+                .header(APM_HEADER_PARAM, ADMIN)
+                .contentType(APPLICATION_JSON)
+                .body("{}")
+                .post("/internal/products/search")
+                .then()
+                .statusCode(200);
     }
 
 }
