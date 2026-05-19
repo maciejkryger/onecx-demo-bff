@@ -45,6 +45,8 @@ quarkus.test.integration-test-profile=test
 %test.tkit.rs.context.tenant-id.mock.claim-org-id=orgId
 %test.quarkus.rest-client.onecx_permission.url=${quarkus.mockserver.endpoint}
 %test.quarkus.devservices.timeout=3m
+%test.quarkus.oidc.connection-delay=PT30S
+%test.quarkus.oidc.connection-timeout=PT10S
 %test.quarkus.keycloak.devservices.java-opts=-Dkc.cache=local
 %test.quarkus.keycloak.devservices.roles.alice=role-admin
 %test.quarkus.keycloak.devservices.roles.bob=role-user
