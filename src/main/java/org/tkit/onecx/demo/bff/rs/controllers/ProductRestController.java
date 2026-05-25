@@ -5,7 +5,6 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
@@ -18,14 +17,14 @@ import org.tkit.quarkus.log.cdi.LogService;
 
 import gen.org.tkit.onecx.demo.bff.backend.client.api.ProductsInternalApi;
 import gen.org.tkit.onecx.demo.bff.backend.client.model.*;
+import gen.org.tkit.onecx.demo.bff.rs.internal.ProductApiService;
+import gen.org.tkit.onecx.demo.bff.rs.internal.model.*;
 
 @ApplicationScoped
 @Transactional(Transactional.TxType.NOT_SUPPORTED)
 @LogService
 @Path("/")
-@Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
-public class ProductRestController {
+public class ProductRestController implements ProductApiService {
 
     @Inject
     @RestClient
@@ -38,45 +37,41 @@ public class ProductRestController {
     ExceptionMapper exceptionMapper;
 
     @POST
-    @Path("/internal/products")
-    public Response createProduct(Product productDto) {
-        try (Response backendResponse = client.createProduct(productDto)) {
-            Product result = backendResponse.readEntity(Product.class);
-            return Response.status(201).entity(result).build();
+    @Path("/products/search")
+    @Override
+    public Response searchProductItems(SearchProductRequestDTO searchProductRequestDto) {
+        try (Response backendResponse = client.searchProducts(mapper.map(searchProductRequestDto))) {
+            ProductPageResult result = backendResponse.readEntity(ProductPageResult.class);
+            return Response.status(backendResponse.getStatus()).entity(mapper.toSearchProductResponse(result)).build();
         }
     }
 
-    @GET
-    @Path("/internal/products/{id}")
-    public Response getProductById(@PathParam("id") String id) {
-        try (Response backendResponse = client.getProductById(id)) {
+    @POST
+    @Path("/products")
+    @Override
+    public Response createProduct(CreateProductRequestDTO createProductRequestDto) {
+        try (Response backendResponse = client.createProduct(mapper.map(createProductRequestDto))) {
             Product result = backendResponse.readEntity(Product.class);
-            return Response.status(200).entity(result).build();
+            return Response.status(backendResponse.getStatus()).entity(mapper.toCreateProductResponse(result)).build();
         }
     }
 
     @PUT
-    @Path("/internal/products/{id}")
-    public Response updateProduct(@PathParam("id") String id, Product productDto) {
-        try (Response backendResponse = client.updateProduct(id, productDto)) {
+    @Path("/products/{id}")
+    @Override
+    public Response updateProductById(@PathParam("id") String id, UpdateProductRequestDTO updateProductRequestDto) {
+        try (Response backendResponse = client.updateProduct(id, mapper.map(updateProductRequestDto))) {
             Product result = backendResponse.readEntity(Product.class);
-            return Response.status(200).entity(result).build();
+            return Response.status(backendResponse.getStatus()).entity(mapper.toUpdateProductResponse(result)).build();
         }
     }
 
     @DELETE
-    @Path("/internal/products/{id}")
-    public Response deleteProduct(@PathParam("id") String id) {
-        client.deleteProduct(id);
-        return Response.noContent().build();
-    }
-
-    @POST
-    @Path("/internal/products/search")
-    public Response searchProducts(ProductSearchCriteria productSearchCriteriaDto) {
-        try (Response backendResponse = client.searchProducts(productSearchCriteriaDto)) {
-            ProductPageResult result = backendResponse.readEntity(ProductPageResult.class);
-            return Response.status(200).entity(result).build();
+    @Path("/products/{id}")
+    @Override
+    public Response deleteProductById(@PathParam("id") String id) {
+        try (Response backendResponse = client.deleteProduct(id)) {
+            return Response.status(backendResponse.getStatus()).build();
         }
     }
 

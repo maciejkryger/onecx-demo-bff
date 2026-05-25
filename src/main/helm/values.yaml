@@ -20,7 +20,7 @@ app:
             defaultClientScopes: [ ocx-demo:all, ocx-pm:read ]
     microservice:
       spec:
-        description: onecx-demo-bff
+        description: OneCX Demo Backend For Frontend
         name: onecx-demo-bff
 
 

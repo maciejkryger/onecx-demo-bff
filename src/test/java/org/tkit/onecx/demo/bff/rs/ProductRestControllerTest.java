@@ -31,135 +31,13 @@ class ProductRestControllerTest extends AbstractTest {
     }
 
     @Test
-    void createProductTest() {
+    void searchProductItemsTest() {
         // unauthorized
         given()
                 .when()
                 .contentType(APPLICATION_JSON)
                 .body("{}")
-                .post("/internal/products")
-                .then()
-                .statusCode(Response.Status.UNAUTHORIZED.getStatusCode());
-
-        // mock backend
-        mockServerClient.when(
-                HttpRequest.request()
-                        .withPath("/internal/products")
-                        .withMethod("POST"))
-                .withId(MOCK_ID).respond(
-                        HttpResponse.response()
-                                .withStatusCode(201)
-                                .withHeader("Content-Type", "application/json")
-                                .withBody("{}"));
-
-        given()
-                .when()
-                .auth().oauth2(keycloakClient.getAccessToken(ADMIN))
-                .header(APM_HEADER_PARAM, ADMIN)
-                .contentType(APPLICATION_JSON)
-                .body("{}")
-                .post("/internal/products")
-                .then()
-                .statusCode(201);
-    }
-
-    @Test
-    void getProductByIdTest() {
-        // unauthorized
-        given()
-                .when()
-                .get("/internal/products/test-id")
-                .then()
-                .statusCode(Response.Status.UNAUTHORIZED.getStatusCode());
-
-        // mock backend
-        mockServerClient.when(
-                HttpRequest.request()
-                        .withPath("/internal/products/test-id")
-                        .withMethod("GET"))
-                .withId(MOCK_ID).respond(
-                        HttpResponse.response()
-                                .withStatusCode(200)
-                                .withHeader("Content-Type", "application/json")
-                                .withBody("{}"));
-
-        given()
-                .when()
-                .auth().oauth2(keycloakClient.getAccessToken(ADMIN))
-                .header(APM_HEADER_PARAM, ADMIN)
-                .get("/internal/products/test-id")
-                .then()
-                .statusCode(200);
-    }
-
-    @Test
-    void updateProductTest() {
-        // unauthorized
-        given()
-                .when()
-                .contentType(APPLICATION_JSON)
-                .body("{}")
-                .put("/internal/products/test-id")
-                .then()
-                .statusCode(Response.Status.UNAUTHORIZED.getStatusCode());
-
-        // mock backend
-        mockServerClient.when(
-                HttpRequest.request()
-                        .withPath("/internal/products/test-id")
-                        .withMethod("PUT"))
-                .withId(MOCK_ID).respond(
-                        HttpResponse.response()
-                                .withStatusCode(200)
-                                .withHeader("Content-Type", "application/json")
-                                .withBody("{}"));
-
-        given()
-                .when()
-                .auth().oauth2(keycloakClient.getAccessToken(ADMIN))
-                .header(APM_HEADER_PARAM, ADMIN)
-                .contentType(APPLICATION_JSON)
-                .body("{}")
-                .put("/internal/products/test-id")
-                .then()
-                .statusCode(200);
-    }
-
-    @Test
-    void deleteProductTest() {
-        // unauthorized
-        given()
-                .when()
-                .delete("/internal/products/test-id")
-                .then()
-                .statusCode(Response.Status.UNAUTHORIZED.getStatusCode());
-
-        // mock backend
-        mockServerClient.when(
-                HttpRequest.request()
-                        .withPath("/internal/products/test-id")
-                        .withMethod("DELETE"))
-                .withId(MOCK_ID).respond(
-                        HttpResponse.response()
-                                .withStatusCode(204));
-
-        given()
-                .when()
-                .auth().oauth2(keycloakClient.getAccessToken(ADMIN))
-                .header(APM_HEADER_PARAM, ADMIN)
-                .delete("/internal/products/test-id")
-                .then()
-                .statusCode(204);
-    }
-
-    @Test
-    void searchProductsTest() {
-        // unauthorized
-        given()
-                .when()
-                .contentType(APPLICATION_JSON)
-                .body("{}")
-                .post("/internal/products/search")
+                .post("/products/search")
                 .then()
                 .statusCode(Response.Status.UNAUTHORIZED.getStatusCode());
 
@@ -180,9 +58,102 @@ class ProductRestControllerTest extends AbstractTest {
                 .header(APM_HEADER_PARAM, ADMIN)
                 .contentType(APPLICATION_JSON)
                 .body("{}")
-                .post("/internal/products/search")
+                .post("/products/search")
                 .then()
                 .statusCode(200);
+    }
+
+    @Test
+    void createProductTest() {
+        // unauthorized
+        given()
+                .when()
+                .contentType(APPLICATION_JSON)
+                .body("{}")
+                .post("/products")
+                .then()
+                .statusCode(Response.Status.UNAUTHORIZED.getStatusCode());
+
+        // mock backend
+        mockServerClient.when(
+                HttpRequest.request()
+                        .withPath("/internal/products")
+                        .withMethod("POST"))
+                .withId(MOCK_ID).respond(
+                        HttpResponse.response()
+                                .withStatusCode(201)
+                                .withHeader("Content-Type", "application/json")
+                                .withBody("{}"));
+
+        given()
+                .when()
+                .auth().oauth2(keycloakClient.getAccessToken(ADMIN))
+                .header(APM_HEADER_PARAM, ADMIN)
+                .contentType(APPLICATION_JSON)
+                .body("{}")
+                .post("/products")
+                .then()
+                .statusCode(201);
+    }
+
+    @Test
+    void updateProductByIdTest() {
+        // unauthorized
+        given()
+                .when()
+                .contentType(APPLICATION_JSON)
+                .body("{}")
+                .put("/products/test-id")
+                .then()
+                .statusCode(Response.Status.UNAUTHORIZED.getStatusCode());
+
+        // mock backend
+        mockServerClient.when(
+                HttpRequest.request()
+                        .withPath("/internal/products/test-id")
+                        .withMethod("PUT"))
+                .withId(MOCK_ID).respond(
+                        HttpResponse.response()
+                                .withStatusCode(200)
+                                .withHeader("Content-Type", "application/json")
+                                .withBody("{}"));
+
+        given()
+                .when()
+                .auth().oauth2(keycloakClient.getAccessToken(ADMIN))
+                .header(APM_HEADER_PARAM, ADMIN)
+                .contentType(APPLICATION_JSON)
+                .body("{}")
+                .put("/products/test-id")
+                .then()
+                .statusCode(200);
+    }
+
+    @Test
+    void deleteProductByIdTest() {
+        // unauthorized
+        given()
+                .when()
+                .delete("/products/test-id")
+                .then()
+                .statusCode(Response.Status.UNAUTHORIZED.getStatusCode());
+
+        // mock backend
+        mockServerClient.when(
+                HttpRequest.request()
+                        .withPath("/internal/products/test-id")
+                        .withMethod("DELETE"))
+                .withId(MOCK_ID).respond(
+                        HttpResponse.response()
+                                .withStatusCode(204));
+
+        given()
+                .when()
+                .auth().oauth2(keycloakClient.getAccessToken(ADMIN))
+                .header(APM_HEADER_PARAM, ADMIN)
+                .delete("/products/test-id")
+                .then()
+                .statusCode(204);
     }
 
 }

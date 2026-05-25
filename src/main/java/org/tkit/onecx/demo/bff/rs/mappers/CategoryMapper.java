@@ -9,7 +9,8 @@ import gen.org.tkit.onecx.demo.bff.rs.internal.model.CategoryDTO;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.CDI, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface CategoryMapper {
-    Category toBackend(CategoryDTO source);
+    Category map(CategoryDTO source);
 
-    CategoryDTO toFrontend(Category source);
+    CategoryDTO map(Category source);
+
 }
