@@ -5,7 +5,6 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
@@ -24,7 +23,6 @@ import gen.org.tkit.onecx.demo.bff.rs.internal.model.*;
 @ApplicationScoped
 @Transactional(Transactional.TxType.NOT_SUPPORTED)
 @LogService
-
 public class ProductRestController implements ProductApiService {
 
     @Inject
@@ -37,9 +35,6 @@ public class ProductRestController implements ProductApiService {
     @Inject
     ExceptionMapper exceptionMapper;
 
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
     @Override
     public Response searchProductItems(SearchProductRequestDTO searchProductRequestDto) {
         try (Response backendResponse = client.searchProducts(mapper.map(searchProductRequestDto))) {
@@ -48,9 +43,6 @@ public class ProductRestController implements ProductApiService {
         }
     }
 
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
     @Override
     public Response createProduct(CreateProductRequestDTO createProductRequestDto) {
         try (Response backendResponse = client.createProduct(mapper.map(createProductRequestDto))) {
@@ -59,20 +51,16 @@ public class ProductRestController implements ProductApiService {
         }
     }
 
-    @PUT
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
     @Override
-    public Response updateProductById(@PathParam("id") String id, UpdateProductRequestDTO updateProductRequestDto) {
+    public Response updateProductById(String id, UpdateProductRequestDTO updateProductRequestDto) {
         try (Response backendResponse = client.updateProduct(id, mapper.map(updateProductRequestDto))) {
             Product result = backendResponse.readEntity(Product.class);
             return Response.status(backendResponse.getStatus()).entity(mapper.toUpdateProductResponse(result)).build();
         }
     }
 
-    @DELETE
     @Override
-    public Response deleteProductById(@PathParam("id") String id) {
+    public Response deleteProductById(String id) {
         try (Response backendResponse = client.deleteProduct(id)) {
             return Response.status(backendResponse.getStatus()).build();
         }

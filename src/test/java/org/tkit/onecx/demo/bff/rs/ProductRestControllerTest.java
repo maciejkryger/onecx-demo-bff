@@ -30,7 +30,7 @@ class ProductRestControllerTest extends AbstractTest {
         given()
                 .when()
                 .contentType(APPLICATION_JSON)
-                .body("{}")
+                //.body("{}")
                 .post("/products/search")
                 .then()
                 .statusCode(Response.Status.UNAUTHORIZED.getStatusCode());
