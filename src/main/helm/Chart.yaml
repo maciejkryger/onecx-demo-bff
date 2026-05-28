@@ -15,4 +15,3 @@ dependencies:
     alias: app
     version: 0.42.0
     repository: oci://ghcr.io/onecx/charts
-

@@ -1,6 +1,7 @@
 package org.tkit.onecx.demo.bff.rs.mappers;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
 
 import gen.org.tkit.onecx.demo.bff.backend.client.model.Product;
@@ -14,11 +15,12 @@ import gen.org.tkit.onecx.demo.bff.rs.internal.model.SearchProductResponseDTO;
 import gen.org.tkit.onecx.demo.bff.rs.internal.model.UpdateProductRequestDTO;
 import gen.org.tkit.onecx.demo.bff.rs.internal.model.UpdateProductResponseDTO;
 
-@Mapper(componentModel = "jakarta-cdi", unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = { CategoryMapper.class })
+@Mapper(componentModel = MappingConstants.ComponentModel.CDI, unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = {
+        CategoryMapper.class })
 public interface ProductMapper {
-    Product map(ProductDTO source);
+    Product toBackend(ProductDTO source);
 
-    ProductDTO map(Product source);
+    ProductDTO toFrontend(Product source);
 
     ProductSearchCriteria map(SearchProductRequestDTO source);
 
@@ -34,5 +36,4 @@ public interface ProductMapper {
 
     @org.mapstruct.Named("toUpdateProductResponse")
     UpdateProductResponseDTO toUpdateProductResponse(Product source);
-
 }

@@ -5,6 +5,7 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
@@ -23,7 +24,7 @@ import gen.org.tkit.onecx.demo.bff.rs.internal.model.*;
 @ApplicationScoped
 @Transactional(Transactional.TxType.NOT_SUPPORTED)
 @LogService
-@Path("/")
+
 public class ProductRestController implements ProductApiService {
 
     @Inject
@@ -37,7 +38,8 @@ public class ProductRestController implements ProductApiService {
     ExceptionMapper exceptionMapper;
 
     @POST
-    @Path("/products/search")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     @Override
     public Response searchProductItems(SearchProductRequestDTO searchProductRequestDto) {
         try (Response backendResponse = client.searchProducts(mapper.map(searchProductRequestDto))) {
@@ -47,7 +49,8 @@ public class ProductRestController implements ProductApiService {
     }
 
     @POST
-    @Path("/products")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     @Override
     public Response createProduct(CreateProductRequestDTO createProductRequestDto) {
         try (Response backendResponse = client.createProduct(mapper.map(createProductRequestDto))) {
@@ -57,7 +60,8 @@ public class ProductRestController implements ProductApiService {
     }
 
     @PUT
-    @Path("/products/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     @Override
     public Response updateProductById(@PathParam("id") String id, UpdateProductRequestDTO updateProductRequestDto) {
         try (Response backendResponse = client.updateProduct(id, mapper.map(updateProductRequestDto))) {
@@ -67,7 +71,6 @@ public class ProductRestController implements ProductApiService {
     }
 
     @DELETE
-    @Path("/products/{id}")
     @Override
     public Response deleteProductById(@PathParam("id") String id) {
         try (Response backendResponse = client.deleteProduct(id)) {
