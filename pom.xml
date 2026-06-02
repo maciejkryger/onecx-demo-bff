@@ -103,6 +103,26 @@
                 <artifactId>quarkus-maven-plugin</artifactId>
                 <extensions>true</extensions>
             </plugin>
+<plugin>
+    <groupId>com.googlecode.maven-download-plugin</groupId>
+    <artifactId>download-maven-plugin</artifactId>
+    <executions>
+        <execution>
+            <id>download-backend-api</id>
+            <phase>generate-resources</phase>
+            <goals>
+                <goal>wget</goal>
+            </goals>
+            <configuration>
+                <uri>https://raw.githubusercontent.com/maciejkryger/onecx-demo-svc/refs/heads/main/src/main/openapi/onecx-demo-svc-internal.yaml</uri>
+                <outputFileName>onecx-demo-svc-internal.yaml</outputFileName>
+                <outputDirectory>${project.basedir}/src/main/openapi/backend</outputDirectory>
+                <overwrite>true</overwrite>
+                <skipCache>true</skipCache>
+            </configuration>
+        </execution>
+    </executions>
+</plugin>
             <plugin>
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
@@ -146,14 +166,6 @@
                         <useSwaggerAnnotations>false</useSwaggerAnnotations>
 
                     </configOptions>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>7</source>
-                    <target>7</target>
                 </configuration>
             </plugin>
         </plugins>

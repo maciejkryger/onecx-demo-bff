@@ -23,6 +23,7 @@ import gen.org.tkit.onecx.demo.bff.rs.internal.model.*;
 @ApplicationScoped
 @Transactional(Transactional.TxType.NOT_SUPPORTED)
 @LogService
+
 public class ProductRestController implements ProductApiService {
 
     @Inject
