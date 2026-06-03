@@ -1,8 +1,7 @@
 package org.tkit.onecx.demo.bff.rs.mappers;
 
+import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
-import org.mapstruct.MappingConstants;
-import org.mapstruct.ReportingPolicy;
 
 import gen.org.tkit.onecx.demo.bff.backend.client.model.Product;
 import gen.org.tkit.onecx.demo.bff.backend.client.model.ProductPageResult;
@@ -15,25 +14,29 @@ import gen.org.tkit.onecx.demo.bff.rs.internal.model.SearchProductResponseDTO;
 import gen.org.tkit.onecx.demo.bff.rs.internal.model.UpdateProductRequestDTO;
 import gen.org.tkit.onecx.demo.bff.rs.internal.model.UpdateProductResponseDTO;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.CDI, unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = {
-        CategoryMapper.class })
+@Mapper
 public interface ProductMapper {
+    @BeanMapping(ignoreByDefault = true)
     Product toBackend(ProductDTO source);
 
+    @BeanMapping(ignoreByDefault = true)
     ProductDTO toFrontend(Product source);
 
+    @BeanMapping(ignoreByDefault = true)
     ProductSearchCriteria map(SearchProductRequestDTO source);
 
-    @org.mapstruct.Named("toSearchProductResponse")
+    @BeanMapping(ignoreByDefault = true)
     SearchProductResponseDTO toSearchProductResponse(ProductPageResult source);
 
+    @BeanMapping(ignoreByDefault = true)
     Product map(CreateProductRequestDTO source);
 
-    @org.mapstruct.Named("toCreateProductResponse")
+    @BeanMapping(ignoreByDefault = true)
     CreateProductResponseDTO toCreateProductResponse(Product source);
 
+    @BeanMapping(ignoreByDefault = true)
     Product map(UpdateProductRequestDTO source);
 
-    @org.mapstruct.Named("toUpdateProductResponse")
+    @BeanMapping(ignoreByDefault = true)
     UpdateProductResponseDTO toUpdateProductResponse(Product source);
 }

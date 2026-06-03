@@ -1,15 +1,16 @@
 package org.tkit.onecx.demo.bff.rs.mappers;
 
+import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
-import org.mapstruct.MappingConstants;
-import org.mapstruct.ReportingPolicy;
 
 import gen.org.tkit.onecx.demo.bff.backend.client.model.Category;
 import gen.org.tkit.onecx.demo.bff.rs.internal.model.CategoryDTO;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.CDI, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper
 public interface CategoryMapper {
+    @BeanMapping(ignoreByDefault = true)
     Category toBackend(CategoryDTO source);
 
+    @BeanMapping(ignoreByDefault = true)
     CategoryDTO toFrontend(Category source);
 }

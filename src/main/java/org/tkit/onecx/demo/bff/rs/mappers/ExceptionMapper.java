@@ -9,6 +9,7 @@ import org.jboss.resteasy.reactive.RestResponse;
 
 @ApplicationScoped
 public class ExceptionMapper {
+
     public RestResponse<String> constraint(ConstraintViolationException ex) {
         return RestResponse.status(Response.Status.BAD_REQUEST, ex.getMessage());
     }
