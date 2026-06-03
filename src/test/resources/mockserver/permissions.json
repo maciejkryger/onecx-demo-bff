@@ -13,8 +13,8 @@
         "json": {
           "appId": "onecx-demo-bff",
           "permissions": {
-            "product": ["read", "write", "delete", "adminRead", "adminWrite", "adminDelete"],
-            "permissions": ["admin-write","admin-read"]
+            "product": ["read", "write", "delete"],
+            "permissions": ["admin-write", "admin-read"]
           }
         },
         "contentType": "application/json"
@@ -36,7 +36,7 @@
           "appId": "onecx-demo-bff",
           "permissions": {
             "product": ["read"],
-            "permissions": ["admin-write","admin-read"]
+            "permissions": ["admin-write", "admin-read"]
           }
         },
         "contentType": "application/json"
