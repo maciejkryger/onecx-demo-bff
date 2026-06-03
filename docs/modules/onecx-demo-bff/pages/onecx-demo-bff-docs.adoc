@@ -15,6 +15,7 @@ quarkus.http.auth.permission.health.policy=permit
 quarkus.http.auth.permission.default.paths=/*
 quarkus.http.auth.permission.default.policy=authenticated
 onecx.permissions.application-id=${quarkus.application.name}
+onecx.permissions.product-name=${quarkus.application.name}
 org.eclipse.microprofile.rest.client.propagateHeaders=apm-principal-token
 onecx.generator.name=onecx-demo-bff
 onecx.generator.group=org.tkit.onecx

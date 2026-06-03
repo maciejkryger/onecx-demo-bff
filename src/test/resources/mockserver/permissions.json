@@ -5,15 +5,15 @@
       "headers": {
         "apm-principal-token": [ "alice" ]
       },
-      "path": "/v1/permissions/user/applications/onecx-user-profile-bff"
+      "path": "/v1/permissions/user/applications/onecx-demo-bff"
     },
     "httpResponse": {
       "body": {
         "type": "JSON",
         "json": {
-          "appId": "onecx-user-profile-bff",
+          "appId": "onecx-demo-bff",
           "permissions": {
-            "userProfile": ["read", "write", "delete", "adminRead", "adminWrite", "adminDelete"],
+            "product": ["read", "write", "delete", "adminRead", "adminWrite", "adminDelete"],
             "permissions": ["admin-write","admin-read"]
           }
         },
@@ -27,15 +27,15 @@
       "headers": {
         "apm-principal-token": [ "bob" ]
       },
-      "path": "/v1/permissions/user/applications/onecx-user-profile-bff"
+      "path": "/v1/permissions/user/applications/onecx-demo-bff"
     },
     "httpResponse": {
       "body": {
         "type": "JSON",
         "json": {
-          "appId": "onecx-user-profile-bff",
+          "appId": "onecx-demo-bff",
           "permissions": {
-            "userProfile": ["read"],
+            "product": ["read"],
             "permissions": ["admin-write","admin-read"]
           }
         },
