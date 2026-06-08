@@ -15,8 +15,8 @@ import org.tkit.onecx.demo.bff.rs.mappers.ExceptionMapper;
 import org.tkit.onecx.demo.bff.rs.mappers.ProductMapper;
 import org.tkit.quarkus.log.cdi.LogService;
 
-import gen.org.tkit.onecx.demo.bff.backend.client.api.ProductsInternalApi;
-import gen.org.tkit.onecx.demo.bff.backend.client.model.*;
+import gen.org.tkit.onecx.demo.bff.client.api.ProductsInternalApi;
+import gen.org.tkit.onecx.demo.bff.client.model.*;
 import gen.org.tkit.onecx.demo.bff.rs.internal.ProductApiService;
 import gen.org.tkit.onecx.demo.bff.rs.internal.model.*;
 
@@ -68,7 +68,7 @@ public class ProductRestController implements ProductApiService {
     }
 
     @ServerExceptionMapper
-    public RestResponse<String> constraint(ConstraintViolationException ex) {
+    public RestResponse<ProblemDetailResponseDTO> constraint(ConstraintViolationException ex) {
         return exceptionMapper.constraint(ex);
     }
 

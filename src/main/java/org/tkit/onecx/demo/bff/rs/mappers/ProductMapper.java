@@ -3,9 +3,9 @@ package org.tkit.onecx.demo.bff.rs.mappers;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 
-import gen.org.tkit.onecx.demo.bff.backend.client.model.Product;
-import gen.org.tkit.onecx.demo.bff.backend.client.model.ProductPageResult;
-import gen.org.tkit.onecx.demo.bff.backend.client.model.ProductSearchCriteria;
+import gen.org.tkit.onecx.demo.bff.client.model.Product;
+import gen.org.tkit.onecx.demo.bff.client.model.ProductPageResult;
+import gen.org.tkit.onecx.demo.bff.client.model.ProductSearchCriteria;
 import gen.org.tkit.onecx.demo.bff.rs.internal.model.CreateProductRequestDTO;
 import gen.org.tkit.onecx.demo.bff.rs.internal.model.CreateProductResponseDTO;
 import gen.org.tkit.onecx.demo.bff.rs.internal.model.ProductDTO;
