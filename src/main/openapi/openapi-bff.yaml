@@ -1,0 +1,286 @@
+openapi: 3.0.3
+info:
+  title: onecx-demo-bff
+  description: Backend-For-Frontend (BFF) services for onecx-demo. This API provides endpoints to manage demo items.
+  version: 1.0.0
+servers:
+  - url: http://onecx-demo-bff:8080/
+tags:
+  - name: product
+    description: Managing Product items
+  - name: category
+    description: Managing Category items
+paths:
+  /products/search:
+    post:
+      operationId: searchProductItems
+      x-onecx:
+        permissions:
+          product:
+            - read
+      tags:
+        - product
+      description: Search Product items by search criteria
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchProductRequest'
+      responses:
+        '200':
+          description: Product search results retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchProductResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetailResponse'
+  /products:
+    post:
+      x-onecx:
+        permissions:
+          product:
+            - write
+      tags:
+        - product
+      operationId: createProduct
+      description: This operation performs a create.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProductRequest'
+      responses:
+        '201':
+          description: New Product created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateProductResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetailResponse'
+  /products/{id}:
+    put:
+      x-onecx:
+        permissions:
+          product:
+            - write
+      tags:
+        - product
+      operationId: updateProductById
+      description: This operation performs an update.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProductRequest'
+      responses:
+        '200':
+          description: Product updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateProductResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetailResponse'
+        '404':
+          description: Product not found
+    delete:
+      x-onecx:
+        permissions:
+          product:
+            - delete
+      tags:
+        - product
+      operationId: deleteProductById
+      description: Delete Product by id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Product deleted
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetailResponse'
+        '404':
+          description: Product not found
+components:
+  schemas:
+    ProblemDetailResponse:
+      type: object
+      properties:
+        errorCode:
+          type: string
+        detail:
+          type: string
+        params:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProblemDetailParam'
+        invalidParams:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProblemDetailInvalidParam'
+    ProblemDetailParam:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+    ProblemDetailInvalidParam:
+      type: object
+      properties:
+        name:
+          type: string
+        message:
+          type: string
+    OffsetDateTime:
+      format: date-time
+      type: string
+      example: 2022-03-10T12:15:50-04:00
+    Product:
+      type: object
+      required:
+        - id
+      properties:
+        modificationCount:
+          type: integer
+          format: int32
+        creationDate:
+          $ref: '#/components/schemas/OffsetDateTime'
+        creationUser:
+          type: string
+          readOnly: true
+        modificationDate:
+          $ref: '#/components/schemas/OffsetDateTime'
+        modificationUser:
+          type: string
+          readOnly: true
+        id:
+          type: string
+          readOnly: true
+        name:
+          type: string
+        category:
+          type: Object
+          $ref: '#/components/schemas/Category'
+    Category:
+      type: object
+      required:
+        - id
+      properties:
+        modificationCount:
+          type: integer
+          format: int32
+        creationDate:
+          $ref: '#/components/schemas/OffsetDateTime'
+        creationUser:
+          type: string
+          readOnly: true
+        modificationDate:
+          $ref: '#/components/schemas/OffsetDateTime'
+        modificationUser:
+          type: string
+          readOnly: true
+        id:
+          type: string
+          readOnly: true
+    SearchProductRequest:
+      type: object
+      properties:
+        pageNumber:
+          type: integer
+          format: int32
+          default: 0
+          description: The number of the page
+        pageSize:
+          type: integer
+          format: int32
+          default: 100
+          maximum: 1000
+          description: The size of the page
+        id:
+          type: integer
+          format: int32
+        changeMe:
+          type: string
+          maximum: 255
+          description: To be replaced by actual search criteria properties
+    SearchProductResponse:
+      type: object
+      required:
+        - number
+        - size
+        - totalElements
+        - totalPages
+        - stream
+      properties:
+        number:
+          type: integer
+          format: int32
+          description: Current page number
+        size:
+          type: integer
+          format: int32
+          description: Current page size
+        totalElements:
+          type: integer
+          format: int64
+          description: The total items in the resource
+        totalPages:
+          type: integer
+          format: int64
+          description: Total pages
+        stream:
+          type: array
+          description: Array of found items
+          items:
+            $ref: '#/components/schemas/Product'
+    CreateProductRequest:
+      type: object
+      properties:
+        dataObject:
+          $ref: '#/components/schemas/Product'
+    UpdateProductRequest:
+      type: object
+      properties:
+        dataObject:
+          $ref: '#/components/schemas/Product'
+    CreateProductResponse:
+      type: object
+      properties:
+        dataObject:
+          $ref: '#/components/schemas/Product'
+    UpdateProductResponse:
+      type: object
+      properties:
+        dataObject:
+          $ref: '#/components/schemas/Product'

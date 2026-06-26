@@ -1,0 +1,7 @@
+include::onecx-demo-bff-attributes.adoc[opts=optional]
+
+= OneCX Demo Backend For Frontend
+
+
+
+include::onecx-demo-bff-docs.adoc[opts=optional]
