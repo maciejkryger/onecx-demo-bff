@@ -2,6 +2,7 @@ package org.tkit.onecx.demo.bff.rs.mappers;
 
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
+import org.tkit.quarkus.rs.mappers.OffsetDateTimeMapper;
 
 import gen.org.tkit.onecx.demo.bff.client.model.Product;
 import gen.org.tkit.onecx.demo.bff.client.model.ProductPageResult;
@@ -14,7 +15,7 @@ import gen.org.tkit.onecx.demo.bff.rs.internal.model.SearchProductResponseDTO;
 import gen.org.tkit.onecx.demo.bff.rs.internal.model.UpdateProductRequestDTO;
 import gen.org.tkit.onecx.demo.bff.rs.internal.model.UpdateProductResponseDTO;
 
-@Mapper
+@Mapper(uses = { OffsetDateTimeMapper.class })
 public interface ProductMapper {
     @BeanMapping(ignoreByDefault = true)
     Product toBackend(ProductDTO source);

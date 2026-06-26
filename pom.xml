@@ -100,11 +100,6 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>io.quarkus</groupId>
-                <artifactId>quarkus-maven-plugin</artifactId>
-                <extensions>true</extensions>
-            </plugin>
-<plugin>
     <groupId>com.googlecode.maven-download-plugin</groupId>
     <artifactId>download-maven-plugin</artifactId>
     <executions>
@@ -115,7 +110,7 @@
                 <goal>wget</goal>
             </goals>
             <configuration>
-                <uri>https://raw.githubusercontent.com/maciejkryger/onecx-demo-svc/refs/heads/develop/src/main/openapi/onecx-demo-svc-internal.yaml</uri>
+                <uri>https://raw.githubusercontent.com/maciejkryger/onecx-demo-svc/refs/heads/main/src/main/openapi/onecx-demo-svc-internal.yaml</uri>
                 <outputFileName>onecx-demo-svc-internal.yaml</outputFileName>
                 <outputDirectory>${project.basedir}/target/tmp/openapi</outputDirectory>
                 <overwrite>true</overwrite>
@@ -165,7 +160,7 @@
                         <useMicroProfileOpenAPIAnnotations>true</useMicroProfileOpenAPIAnnotations>
                         <useJakartaEe>true</useJakartaEe>
                         <useSwaggerAnnotations>false</useSwaggerAnnotations>
-
+                        
                     </configOptions>
                 </configuration>
             </plugin>
