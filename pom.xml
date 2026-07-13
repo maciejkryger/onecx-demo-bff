@@ -99,26 +99,7 @@
 
     <build>
         <plugins>
-            <plugin>
-    <groupId>com.googlecode.maven-download-plugin</groupId>
-    <artifactId>download-maven-plugin</artifactId>
-    <executions>
-        <execution>
-            <id>download-backend-api</id>
-            <phase>generate-resources</phase>
-            <goals>
-                <goal>wget</goal>
-            </goals>
-            <configuration>
-                <uri>https://raw.githubusercontent.com/maciejkryger/onecx-demo-svc/refs/heads/main/src/main/openapi/onecx-demo-svc-internal.yaml</uri>
-                <outputFileName>onecx-demo-svc-internal.yaml</outputFileName>
-                <outputDirectory>${project.basedir}/target/tmp/openapi</outputDirectory>
-                <overwrite>true</overwrite>
-                <skipCache>true</skipCache>
-            </configuration>
-        </execution>
-    </executions>
-</plugin>
+            
             <plugin>
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
