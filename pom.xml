@@ -95,6 +95,16 @@
             <artifactId>quarkus-mockserver-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-junit-mockito</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -160,7 +170,6 @@
                         <useMicroProfileOpenAPIAnnotations>true</useMicroProfileOpenAPIAnnotations>
                         <useJakartaEe>true</useJakartaEe>
                         <useSwaggerAnnotations>false</useSwaggerAnnotations>
-                        
                     </configOptions>
                 </configuration>
             </plugin>
